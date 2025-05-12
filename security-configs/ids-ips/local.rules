@@ -1,0 +1,8 @@
+# Règle 1 : Scan de répertoires sensibles
+drop http any any -> any any (msg:"BLOCKED: Directory Traversal"; flow:to_server; http.uri; content:"/etc/passwd"; nocase; sid:1000001; rev:1;)
+
+# Règle 2 : Injection SQL (syntaxe corrigée)
+drop http any any -> any any (msg:"BLOCKED: SQL Injection"; flow:to_server; http.uri; content:"'"; sid:1000002; rev:1;)
+
+# Règle 3 : User-Agent malveillant
+drop http any any -> any any (msg:"BLOCKED: Malicious User-Agent"; flow:to_server; http.user_agent; content:"sqlmap"; nocase; sid:1000003; rev:1;)
